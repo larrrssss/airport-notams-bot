@@ -16,8 +16,26 @@ function formatArrayToString(arr: string[], skip: number): string {
 async function executor(interaction: CommandInteraction): Promise<void> {
   const icao = (interaction.options.get('airport')?.value as string).toUpperCase() || '';
 
+  if (icao.length !== 4) {
+    const embed = new MessageEmbed()
+      .setFooter('Made with ❤️ from Germany')
+      .setTimestamp()
+      .setTitle('Invalid icao code')
+      .setColor(getColor('RED'));
+    interaction.reply({ embeds: [embed], ephemeral: true });
+    return;
+  }
+
   const notams = await getNotams(icao);
-  if (!notams) return;  
+  if (!notams || notams.length === 0) {
+    const embed = new MessageEmbed()
+      .setFooter('Made with ❤️ from Germany')
+      .setTimestamp()
+      .setTitle('We couldn\'t find any notams for this icao code')
+      .setColor(getColor('RED'));
+    interaction.reply({ embeds: [embed], ephemeral: true });
+    return;
+  }
 
   const notamAsString = notams.map(formatNotam);
 
