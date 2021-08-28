@@ -47,9 +47,10 @@ async function executor(interaction: CommandInteraction): Promise<void> {
     
   let skip = 0;
   let page = 1;
+  const totalPages = notamAsString.length < limit ? 1 : Math.floor(notamAsString.length / limit);
 
   let content = formatArrayToString(notamAsString.slice(skip, skip + limit), 0);
-  content += `${page}/${Math.floor(notamAsString.length / limit)}`;
+  content += `${page}/${totalPages}`;
 
   embed.setDescription(content);
 
@@ -87,7 +88,7 @@ async function executor(interaction: CommandInteraction): Promise<void> {
     }
 
     let content = formatArrayToString(notamAsString.slice(skip, skip + limit), skip);
-    content += `${page}/${Math.floor(notamAsString.length / 5)}`;
+    content += `${page}/${totalPages}`;
 
     if (content.length > 4096) {
       embed
