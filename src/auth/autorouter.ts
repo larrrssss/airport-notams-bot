@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const BASE_URL = 'https://api.autorouter.aero/v1.0/oauth2';
-const filePath = path.join(__dirname, 'token.json');
+const filePath = path.join(process.env.TOKEN_PATH || '');
 let auth: IAuth | undefined = undefined;
 
 interface IAuth {
